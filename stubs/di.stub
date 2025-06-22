@@ -1,0 +1,19 @@
+<?php
+declare(strict_types=1);
+
+namespace {{ namespace }}Container;
+
+use Beauty\Core\Container\ContainerManager;
+
+class DI
+{
+    /**
+     * @param ContainerManager $container
+     * @return void
+     */
+    public static function configure(ContainerManager $container): void
+    {
+        // Bindings here
+    }
+}
+
