@@ -8,6 +8,45 @@ Add the package to your project via Composer:
 composer require beauty-framework/module-support
 ```
 
+The next step is to write the routing in the config `config/router.php`:
+```php
+return [
+    'controllers' => [
+        __DIR__ . '/../modules/*/src/Controllers/**/*Controller.php',
+    ],
+];
+```
+
+And at the last step, in `bootstrap/kernel.php` add
+```php
+$bootstrap = new class {
+    use \Beauty\Module\Core\HasModuleSupportTrait;
+
+    /**
+     * @return object
+     * @property array $middlewares
+     * @property ContainerManager $containerManager
+     * @property array $routerConfig
+     */
+    public function boot(): object
+    {
+    // ...
+    }
+    
+    // ...
+}
+```
+
+And in the same file, in the `initContainerManager` method, add the following to line `83`:
+```php 
+        return ContainerManager::bootFrom(array_merge(
+            $containers,
+            $this->findModuleContainerClasses(),
+            [Config::class, Base::class, DI::class]
+        ));
+```
+
+
 ## Quick Start: Module Generation
 
 ### 1. Generate a new module
